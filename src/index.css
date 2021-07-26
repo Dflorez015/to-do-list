@@ -1,0 +1,149 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  --main-color: #0353a4;
+  --option-bar: #006daa;
+  --add-btn: #38b000;
+  --gray: #bbbbbb;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* header */
+
+.menu {
+  width: 100%;
+  height: 3rem;
+  background-color: var(--main-color);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 8px rgba(0, 0, 0, 0.11);
+}
+
+.menu>h1 {
+  margin-left: .5rem;
+}
+
+/*content*/
+
+.content {
+  height: 95%;
+  width: 80%;
+  margin: auto;
+}
+
+/*add button*/
+
+.add-btn {
+  margin-top: 2rem;
+  padding: .5rem;
+  background-color: #fff;
+  border: 1px solid var(--add-btn);
+  border-radius: 8px;
+  transition: background-color 0.4s ease-out;
+  transition: border-color 0.4s ease-out;
+  transition: color 0.5s ease-out;
+}
+
+.add-btn:hover {
+  cursor: pointer;
+  background-color: var(--add-btn);
+  border-color: #000;
+  color: #fff;
+}
+
+/* modal from*/
+
+.form-card {
+  background-color: var(--main-color);
+  color: #fff;
+  font-size: 20px;
+  padding: .2rem;
+}
+
+.form-card>nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+
+/* main */
+
+main {
+  padding-top: 2rem;
+}
+
+/* table list-task*/
+
+.list-cont {
+  padding: .5rem;
+}
+
+.table {
+  background-color: whitesmoke;
+  border-radius: 8px;
+  margin: auto;
+}
+
+.table th {
+  font-size: 22px;
+  padding: .5rem;
+}
+
+/* task*/
+
+/* Carta*/
+
+.task {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: .5rem 1rem;
+  margin: .2rem .5rem;
+  box-shadow: 0 5px rgba(0, 0, 0, 0.062);
+}
+
+/* Barra de opciones*/
+
+.task-option {
+  background-color: var(--option-bar);
+  border-bottom: 1px solid var(--gray);
+  border-radius: 10px;
+  height: 2rem;
+  margin-bottom: .3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.task-option ul {
+  background-color: #fff;
+  border: 1px solid var(--gray);
+  border-radius: 0 5px 5px 0;
+  padding: .41rem .2rem;
+  margin: auto 0;
+  transition: background-color 0.5s ease-out;
+}
+
+.task-option ul:first-child {
+  border-radius: 5px 0 0 5px;
+}
+
+.task-option ul:hover {
+  cursor: pointer;
+  background-color: whitesmoke;
+}
+
+@media (max-width: 600px) {
+  .content {
+    width: 95%;
+  }
+}
