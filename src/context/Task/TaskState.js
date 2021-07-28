@@ -15,29 +15,55 @@ const TaskState = (props) => {
 
     // Agrega una tarea nueva a la lista
     const addTask = (description) => {
-
-    }
-
-    // Remueve una tarea de la lista
-    const removeTask = () => {
-
+        dispatch({
+            type: "ADD_TASK",
+            payload: description
+        })
     }
 
     // Agrega un hecho aleatorio de los gatos por medio de una API REST
     const getFactCat = async () => {
 
-        let res_api = await axios.get("https://catfact.ninja/fact")
+        let res_api = await axios.get("https://catfact.ninja/fact?max_length=300")
             .then(res => res)
 
         let payload = [res_api.data.fact]
         /*
         Envía la función que se ejecutará con su respectivo dato (payload)
-         y actualiza la lista (state)
-         */
+        y actualiza la lista (state)
+        */
         dispatch({
             type: "GET_FACT_CAT",
             payload: payload
         })
+    }
+
+    // Edita una tarea de la lista
+    const editTask = (id, desc) => {
+        let indexEdit = state.tasks.map(
+            (task) => { return task.id })
+            .indexOf(id) // Devuelve el indice de elemento cuyo id sea equivalente al ingresado
+        let payload = state.tasks
+        payload[indexEdit].desc = desc
+        dispatch({
+            type: "EDIT_TASK",
+            payload: payload
+        })
+
+    }
+
+    // Remueve una tarea de la lista
+    const removeTask = (id) => {
+        let removeList = state.tasks.filter(
+            (task) => task.id !== id) // Quita la tarea si el id es iquivalente al ingresado
+
+            console.log(state, removeList);
+
+        dispatch({
+            type: "REMOVE_TASK",
+            payload: removeList
+        })
+
     }
 
     return (
@@ -46,7 +72,8 @@ const TaskState = (props) => {
             selectedTask: state.selectedTask,
             addTask,
             removeTask,
-            getFactCat
+            getFactCat,
+            editTask
         }}>
             {props.children}
         </TaskContext.Provider>

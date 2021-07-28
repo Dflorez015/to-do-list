@@ -19,9 +19,9 @@ export default function List({ title }) {
                 <tbody>
                     {
                         tasks.map(task => (
-                            <tr key={task[0]}>
+                            <tr key={task.id}>
                                 <td>
-                                    <Activity desc={task[1]} />
+                                    <Activity desc={task.desc} id={task.id} />
                                 </td>
                             </tr>
                         ))
