@@ -1,13 +1,15 @@
 import React, { useReducer } from 'react'
+// Reducer
 import TaskReducer from "./TaskReducer"
+// Context
 import TaskContext from './TaskContext'
+// Axios, ayuda en las peticiones con la API
 import axios from 'axios'
 
 const TaskState = (props) => {
     // Estado inicial de la lista de tareas
     const initialState = {
-        tasks: [],
-        selectedTask: null
+        tasks: []
     }
 
     // Reducer que ayuda con la manipulación del estado
@@ -15,19 +17,26 @@ const TaskState = (props) => {
 
     // Agrega una tarea nueva a la lista
     const addTask = (description) => {
+        // Transforma la primera letra en mayúscula 
+        let payload = description[0].toUpperCase()
+        for (let i = 1; i < description.length; i++) {
+            payload += description[i];
+        }
+
         dispatch({
             type: "ADD_TASK",
-            payload: description
+            payload: payload
         })
     }
 
-    // Agrega un hecho aleatorio de los gatos por medio de una API REST
-    const getFactCat = async () => {
+    // Agrega un número n de hechos aleatorios de los gatos por medio de una API REST
+    const getFactCat = async (num) => {
 
-        let res_api = await axios.get("https://catfact.ninja/fact?max_length=300")
+        let res_api = await axios.get(`https://catfact.ninja/facts?limit=${num}&max_length=300`)
             .then(res => res)
 
-        let payload = [res_api.data.fact]
+        let payload = res_api.data.data
+
         /*
         Envía la función que se ejecutará con su respectivo dato (payload)
         y actualiza la lista (state)
@@ -57,8 +66,6 @@ const TaskState = (props) => {
         let removeList = state.tasks.filter(
             (task) => task.id !== id) // Quita la tarea si el id es iquivalente al ingresado
 
-            console.log(state, removeList);
-
         dispatch({
             type: "REMOVE_TASK",
             payload: removeList
@@ -66,14 +73,60 @@ const TaskState = (props) => {
 
     }
 
+    // Filtra la lista por su descripción desde la A hasta la Z o viceversa
+    const filterTaskByDesc = (type) => {
+        let payload
+        switch (type) {
+            case "[A-Z]":
+                // Se ordena de menor a mayor
+                payload = state.tasks.sort((a, b) => {
+                    return a.desc > b.desc // Compara descripciones y ordena de la A hasta la Z
+                })
+                dispatch({
+                    type: "FILTER_DESC",
+                    payload: payload
+                })
+
+                break
+
+            case "[Z-A]":
+                // Se ordena de mayor a menor
+                payload = state.tasks.sort((a, b) => {
+                    return a.desc < b.desc // Compara descripciones y ordena de la Z hasta la A
+                })
+                dispatch({
+                    type: "FILTER_DESC",
+                    payload: payload
+                })
+
+                break
+
+            case "reset":
+                // Se ordena del más antigüo al más nuevo
+                payload = state.tasks.sort((a, b) => {
+                    return a.id > b.id // Compara id y ordena de menor a mayor
+                })
+                dispatch({
+                    type: "FILTER_DESC",
+                    payload: payload
+                })
+
+                break
+
+            default:
+                break
+        }
+
+    }
+
     return (
         <TaskContext.Provider value={{
             tasks: state.tasks,
-            selectedTask: state.selectedTask,
             addTask,
             removeTask,
             getFactCat,
-            editTask
+            editTask,
+            filterTaskByDesc
         }}>
             {props.children}
         </TaskContext.Provider>
